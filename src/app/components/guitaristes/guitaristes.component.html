@@ -1,0 +1,125 @@
+<!-- <h3>test affichage</h3>
+@for (g of guitaristeslist; track $index){
+  <div>
+    <p>{{g.nom}} | {{g.prenom}} | {{g.dateNaiss}}</p>
+  </div>
+} -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+body {font-size:16px;}
+.w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+.w3-half img:hover{opacity:1}
+</style>
+</head>
+<body>
+
+<app-nav></app-nav>
+
+<!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
+    <a onclick="document.getElementById('mySidebar').style.display === 'block' ? document.getElementById('mySidebar').style.display = 'none' : document.getElementById('mySidebar').style.display = 'block'; document.getElementById('myOverlay').style.display === 'block' ? document.getElementById('myOverlay').style.display = 'none' : document.getElementById('myOverlay').style.display = 'block';" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">|||</a>
+  <span>Company Name</span>
+</header>
+
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+  <!-- Header -->
+  <div class="w3-container" style="margin-top:80px" id="showcase">
+    <h1 class="w3-jumbo"><b>Encyclopédie de guitares</b></h1>
+    <h1 class="w3-xxxlarge w3-text-red"><b>Les guitaristes</b></h1>
+    <!-- petite barre rouge -->
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+  </div>
+  
+
+
+
+  <!-- Modal for full size images on click-->
+  <div id="modal01" class="w3-modal w3-black" style="padding-top:0" onclick="this.style.display='none'">
+    <span class="w3-button w3-black w3-xxlarge w3-display-topright">×</span>
+    <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+      <img id="img01" class="w3-image">
+      <p id="caption"></p>
+    </div>
+  </div>
+
+ 
+  <!-- Generation d un container pour chaque guitaristes de la liste -->
+  <div class="w3-row-padding w3-grayscale">
+    <div *ngFor="let g of guitaristeslist; let i = index" class="w3-col m4 w3-margin-bottom">
+      <div class="w3-light-grey">
+        <div class="w3-container">
+          <h3>{{ g.nom }} {{ g.prenom }}</h3>
+          <p class="w3-opacity">Date de naissance: {{ g.dateNaiss | date : "dd-MMM-yyyy" }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<!-- Formulaire pour ajouter un nouveau guitariste -->
+<div>
+    <h2>Add guitariste</h2>
+    <form [formGroup]="formgroup" (ngSubmit)="InsertGuitariste()">
+        <div>
+            <label for="nom">Nom:</label>
+            <input formControlName="nom" type="text" id="nom" name="nom">
+          </div>
+          <div>
+            <label for="prenom">Prénom:</label>
+            <input formControlName="prenom" type="text" id="prenom" name="prenom">
+          </div>
+          <div>
+            <label for="dateNaiss">Date de naissance:</label>
+            <input  formControlName="dateNaiss" type="date" id="dateNaiss" name="dateNaiss">
+          </div>
+          <div>
+            <label for="guitare">Guitares:</label>
+            <input formControlName="guitare" type="text" id="guitare" >
+          </div>
+          <button type="submit">Ajouter</button>
+    
+    </form>
+</div>
+<!-- <div>
+    <h2>Ajouter un nouveau guitariste</h2>
+ <form [formGroup]= "formgroup"  (ngSubmit)="InsertGuitariste()"></form>
+      <div>
+        <label for="nom">Nom:</label>
+        <input formControlName="nom" type="text" id="nom" name="nom">
+      </div>
+      <div>
+        <label for="prenom">Prénom:</label>
+        <input formControlName="prenom" id="prenom" name="prenom">
+      </div>
+      <div>
+        <label for="dateNaiss">Date de naissance:</label>
+        <input type="date" formControlName="dateNaiss" id="dateNaiss" name="dateNaiss">
+      </div>
+      <div>
+        <label for="guitare">Guitares:</label>
+        <input formControlName="guitare" type="number" id="guitare" name="guitare">
+      </div>
+      <button type="submit">Ajouter</button>
+
+  </div> -->
+<!-- End page content -->
+</div>
+
+<!-- W3.CSS Container -->
+<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:530px;padding-right:58px">
+    <p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p>
+  </div>
+</body>
+</html>
+
