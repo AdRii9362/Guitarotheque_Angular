@@ -15,6 +15,7 @@ export class GuitaristesComponent {
   
   guitaristeslist! : Guitaristes[]
   formgroup! : FormGroup
+  isFormValid: boolean = false;
 
   constructor( private _service : GuitaristesService,private formbuilder : FormBuilder, private router: Router){
     _service.getAll().subscribe({
@@ -30,12 +31,13 @@ export class GuitaristesComponent {
       dateNaiss : [""],
       guitare : [""]
     })
+
+    this.formgroup.valueChanges.subscribe(() => {
+      this.isFormValid = this.formgroup.valid;
+    })
   }
 
-  InsertGuitariste() {
-   
-
-// Supposons que guitareTab contient les valeurs sous forme de chaînes de caractères
+InsertGuitariste() {
 let guitareValue: string = this.formgroup.get('guitare')?.value;
 console.log(guitareValue);
 
@@ -66,11 +68,9 @@ console.log(guitareNumbers)
       this._service.Insert(data).subscribe(() => {
         console.log('Nouveau guitariste ajouté avec succès');
         this.formgroup.reset(); // Réinitialiser le formulaire après l'ajout
+        window.location.reload();
       });
     }
-
-
-
 
   navToGuitaristes() {
     this.router.navigate(['/guitaristes']); // Naviguez vers la route 'guitaristlist'
