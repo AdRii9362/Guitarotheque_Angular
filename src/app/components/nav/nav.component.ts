@@ -40,11 +40,4 @@ export class NavComponent {
   }
 // #endregion
   
-// navToGuitaristes() {
-//     this.router.navigate(['/guitaristes']);
-//   }
-  
-//   navToHome(){
-//     this.router.navigate(['/home']);
-//   }
 }

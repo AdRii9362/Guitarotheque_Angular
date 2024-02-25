@@ -13,20 +13,24 @@ import { Guitaristes } from '../../models/guitaristes.model';
 
 export class GuitaristesComponent {
   
-  guitaristeslist! : Guitaristes[]
-  formgroup! : FormGroup
-  isFormValid: boolean = false
+  guitaristeslist! : Guitaristes[] //GetAll
+  formgroup! : FormGroup //Insert
+  isFormValid: boolean = false //Insert
+  selectedGuitaristeId: number | undefined;
 
 
   constructor( private _service : GuitaristesService,private formbuilder : FormBuilder){
 
+    // #region "GetAll Guitaristes"
     _service.getAll().subscribe({
       next : (data : Guitaristes[])=> {
         console.log(data)
         this.guitaristeslist = data
       }
-    })
-    
+    })  
+    // #endregion
+
+    // #region "Initialisation formulaire au lancement de la page"
     this.formgroup = this.formbuilder.group({ 
       nom : [""],
       prenom : [""],
@@ -37,7 +41,36 @@ export class GuitaristesComponent {
     this.formgroup.valueChanges.subscribe(() => {
       this.isFormValid = this.formgroup.valid;
     })
+
+    // #endregion
   }
+// #region "Delete Guitariste"
+
+onSelectGuitariste(guitaristeId: number) {
+  // Mettre à jour l'identifiant du guitariste sélectionné
+  this.selectedGuitaristeId = guitaristeId;
+}
+
+onDeleteSelectedGuitariste() {
+  if (this.selectedGuitaristeId) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer ce guitariste?")) {
+      // Appeler votre service de suppression avec l'identifiant du guitariste sélectionné
+      this._service.deleteGuitariste(this.selectedGuitaristeId).subscribe(() => {
+        console.log("Guitariste supprimé avec succès.");
+        // Rafraîchir la liste des guitaristes après la suppression
+        this.refreshGuitaristesList();
+        window.location.reload();
+      });
+    }
+  } else {
+    console.error("Aucun guitariste sélectionné.");
+  }
+}
+
+refreshGuitaristesList() {
+  // Réinitialiser la liste des guitaristes ou recharger les données depuis le service
+}
+// #endregion
 
 // #region "Insertion guitariste"
 
@@ -62,6 +95,7 @@ for (let guitare of guitareTab) {
 console.log(guitareNumbers)
 
       const data = {
+       
         nom: this.formgroup.get('nom')?.value,
         prenom: this.formgroup.get('prenom')?.value,
         dateNaiss: this.formgroup.get('dateNaiss')?.value,
@@ -74,4 +108,6 @@ console.log(guitareNumbers)
         window.location.reload();
       });
     }
+
+ // #endregion
 }

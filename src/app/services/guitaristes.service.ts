@@ -21,4 +21,10 @@ export class GuitaristesService {
     
     return this._client.post<any>(this.url + "Guitariste/Insert", guitariste);
   }
+
+  deleteGuitariste(selectedGuitaristeId: number): Observable<any> {
+    
+    return this._client.delete<any>(this.url + "Guitariste/"+ selectedGuitaristeId);
+
+}
 }
