@@ -8,13 +8,19 @@ import { NavComponent } from './components/nav/nav.component';
 import { GuitaristesComponent } from './components/guitaristes/guitaristes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GuitaresComponent } from './components/guitares/guitares.component';
+import { AccessoiresComponent } from './components/accessoires/accessoires.component';
+import { GroupesComponent } from './components/groupes/groupes.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavComponent,
-    GuitaristesComponent
+    GuitaristesComponent,
+    GuitaresComponent,
+    AccessoiresComponent,
+    GroupesComponent
   ],
   imports: [
     BrowserModule,

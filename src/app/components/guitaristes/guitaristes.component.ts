@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { GuitaristesService } from '../../services/guitaristes.service';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Guitaristes } from '../../models/guitaristes.model';
+
 
 
 @Component({
@@ -15,16 +15,18 @@ export class GuitaristesComponent {
   
   guitaristeslist! : Guitaristes[]
   formgroup! : FormGroup
-  isFormValid: boolean = false;
+  isFormValid: boolean = false
 
-  constructor( private _service : GuitaristesService,private formbuilder : FormBuilder, private router: Router){
+
+  constructor( private _service : GuitaristesService,private formbuilder : FormBuilder){
+
     _service.getAll().subscribe({
       next : (data : Guitaristes[])=> {
         console.log(data)
         this.guitaristeslist = data
       }
     })
-
+    
     this.formgroup = this.formbuilder.group({ 
       nom : [""],
       prenom : [""],
@@ -37,6 +39,9 @@ export class GuitaristesComponent {
     })
   }
 
+// #region "Insertion guitariste"
+
+  //Methode insertion 
 InsertGuitariste() {
 let guitareValue: string = this.formgroup.get('guitare')?.value;
 console.log(guitareValue);
@@ -44,10 +49,8 @@ console.log(guitareValue);
 let guitareTab: string[] = guitareValue.split(',');
 console.log(guitareTab);
 
-
 // Convertir les valeurs en nombre et les insérer dans un tableau de nombres
 let guitareNumbers: number[] = [];
-
 
 for (let guitare of guitareTab) {
   // Convertir la chaîne de caractères en nombre et l'ajouter au tableau
@@ -71,12 +74,4 @@ console.log(guitareNumbers)
         window.location.reload();
       });
     }
-
-  navToGuitaristes() {
-    this.router.navigate(['/guitaristes']); // Naviguez vers la route 'guitaristlist'
-  }
-  
-  navToHome(){
-    this.router.navigate(['/home']); // Naviguez vers la route 'guitaristlist'
-  }
 }

@@ -1,19 +1,19 @@
-<!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
-    <!-- <a href="javascript:void(0)" onclick="document.getElementById('mySidebar').style.display === 'block' ? document.getElementById('mySidebar').style.display = 'none' : document.getElementById('mySidebar').style.display = 'block'; document.getElementById('myOverlay').style.display === 'block' ? document.getElementById('myOverlay').style.display = 'none' : document.getElementById('myOverlay').style.display = 'block';" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">X</a> -->
+<!-- Header pour les grands écrans -->
+<header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
+  <a (click)="toggleSidebar()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">|||</a>
+</header>
 
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-red" [ngClass]="{'w3-show': !isSidebarCollapsed, 'w3-hide': isSidebarCollapsed}" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar">
+  <br>
   <div class="w3-container">
     <h3 class="w3-padding-64"><b>Guitarothèque</b></h3>
   </div>
   <div class="w3-bar-block">
-
-    <button (click)="navToHome()" class="w3-bar-item w3-button w3-hover-white">Accueil</button>
-    <button (click)="navToGuitaristes()" class="w3-bar-item w3-button w3-hover-white">Guitares</button>
-    <button (click)="navToGuitaristes()" class="w3-bar-item w3-button w3-hover-white">Accessoires</button>
-    <button (click)="navToGuitaristes()" class="w3-bar-item w3-button w3-hover-white">Guitaristes</button>
-    <button (click)="navToGuitaristes()" class="w3-bar-item w3-button w3-hover-white">Groupes</button>
- 
-    <!-- <a href="#services" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Services</a>  -->
-   
+    <button [routerLink]="['/home']" class="w3-bar-item w3-button w3-hover-white">Accueil</button>
+    <button [routerLink]="['/guitares']" class="w3-bar-item w3-button w3-hover-white">Guitares</button>
+    <button [routerLink]="['/accessoires']" class="w3-bar-item w3-button w3-hover-white">Accessoires</button>
+    <button [routerLink]="['/guitaristes']" class="w3-bar-item w3-button w3-hover-white">Guitaristes</button>
+    <button [routerLink]="['/groupes']" class="w3-bar-item w3-button w3-hover-white">Groupes</button>
   </div>
 </nav>
