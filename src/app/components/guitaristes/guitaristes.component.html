@@ -78,11 +78,54 @@ body {font-size:16px;}
   <hr style="width:50px;border:5px solid red" class="w3-round">
   <div>
     <select [(ngModel)]="selectedGuitaristeId" style="margin-right: 10px">
-      <option *ngFor="let g of guitaristeslist" [value]="g.id_Guitariste">{{ g.nom }} | {{ g.prenom }} | {{ g.dateNaiss | date : "dd-MMM-yyyy" }}</option>
+      <option *ngFor="let g of guitaristeslist" [value]="g.id_Guitariste">ID: {{g.id_Guitariste}} | {{ g.nom }} | {{ g.prenom }} | {{ g.dateNaiss | date : "dd-MMM-yyyy" }}</option>
     </select>
     <button (click)="onDeleteSelectedGuitariste()" class="w3-button w3-red" [disabled]="!selectedGuitaristeId">Supprimer</button>
   </div>
 </div>
+
+
+
+
+<!-- Modifier un guitariste -->
+
+<div>
+  <h2 class="w3-xxxlarge w3-text-red">Modifier un guitariste</h2>
+  <hr style="width:50px;border:5px solid red" class="w3-round">
+  <div>
+    <select [(ngModel)]="selectedGuitaristeId" style="margin-right: 10px">
+      <option *ngFor="let g of guitaristeslist" [value]="g.id_Guitariste">ID: {{g.id_Guitariste}} | {{ g.nom }} | {{ g.prenom }} | {{ g.dateNaiss | date : "dd-MMM-yyyy" }}</option>
+    </select>
+  </div>
+  <div>
+  <br>
+    <!-- Formulaire pour mettre à jour le guitariste sélectionné -->
+    
+    <form [formGroup]="formgroup" (submit)="onUpdateSelectedGuitariste(selectedGuitaristeId)">
+      <div class="w3-section">
+        <label for="nom">Nom:</label>
+        <input class="w3-input w3-border" type="text" id="nom" name="nom" formControlName="nom" required>
+      </div>
+      <div class="w3-section">
+        <label for="prenom">Prénom:</label>
+        <input class="w3-input w3-border" type="text" id="prenom" name="prenom" formControlName="prenom" required>
+      </div>
+      <div class="w3-section">
+        <label for="dateNaiss">Date de naissance:</label>
+        <input class="w3-input w3-border" type="date" id="dateNaiss" name="dateNaiss" formControlName="dateNaiss" required>
+      </div>
+      <div class="w3-section">
+        <label for="guitare">Guitare:</label>
+        <input class="w3-input w3-border" type="text" id="guitare" name="guitare" formControlName="guitare" required>
+      </div>
+      <button type="submit" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom" [disabled]="!isFormValid">Mettre à jour</button>
+    </form>
+  </div>
+</div>
+
+
+
+
 
 
 <!-- End page content -->

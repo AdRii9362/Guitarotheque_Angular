@@ -12,11 +12,11 @@ export class GuitaristesService {
   private url : string = "https://localhost:7206/api/"
   constructor(private _client : HttpClient) { }
 
-  getAll() : Observable<Guitaristes[]>{
+  getAllGuitariste() : Observable<Guitaristes[]>{
     return this._client.get<Guitaristes[]>(this.url + "Guitariste/GetAll")
   }
 
-  Insert(guitariste: Guitaristes): Observable<any> {
+  insertGuitariste(guitariste: Guitaristes): Observable<any> {
     console.log(guitariste);
     
     return this._client.post<any>(this.url + "Guitariste/Insert", guitariste);
@@ -26,5 +26,12 @@ export class GuitaristesService {
     
     return this._client.delete<any>(this.url + "Guitariste/"+ selectedGuitaristeId);
 
+}
+
+updateGuitariste(selectedGuitaristeId:number,guitariste: Guitaristes): Observable<any>{
+  console.log(guitariste);
+
+  return this._client.put<any>(this.url + "Guitariste/" + selectedGuitaristeId, guitariste);
+  
 }
 }
