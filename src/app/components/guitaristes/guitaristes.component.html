@@ -35,6 +35,23 @@ body {font-size:16px;}
   </div>
    
   <!-- Generation d un container pour chaque guitaristes de la liste -->
+
+  <!-- <div class="w3-row-padding w3-grayscale">
+    <div *ngFor="let g of guitaristeslistIntermediaire; let i = index" class="w3-col m4 w3-margin-bottom">
+        <div class="w3-light-grey">
+            <div class="w3-container">
+                Utilisez les propriétés de chaque guitariste pour afficher ses données -->
+                <!-- <h3>{{ g.guitaristeNom }} {{ g.guitaristePrenom }}</h3>
+                <p class="w3-opacity">Date de naissance: {{ g.guitaristeDateNaiss | date : "dd-MMM-yyyy" }}</p> -->
+                <!-- Ajoutez d'autres données du guitariste si nécessaire -->
+            <!-- </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+
   <div class="w3-row-padding w3-grayscale">
     <div *ngFor="let g of guitaristeslist; let i = index" class="w3-col m4 w3-margin-bottom">
       <div class="w3-light-grey">
@@ -50,7 +67,7 @@ body {font-size:16px;}
 <div>
     <h2 class="w3-xxxlarge w3-text-red">Ajouter un guitariste</h2>
     <hr style="width:50px;border:5px solid red" class="w3-round">
-    <form [formGroup]="formgroup" (ngSubmit)="InsertGuitariste()">
+    <form [formGroup]="formInsertGuitariste" (ngSubmit)="InsertGuitariste()">
       <div class="w3-section">
             <label for="nom">Nom:</label>
             <input class="w3-input w3-border" formControlName="nom" type="text" id="nom" name="nom" required>
@@ -67,7 +84,7 @@ body {font-size:16px;}
             <label for="guitare">Guitares:</label>
             <input class="w3-input w3-border" formControlName="guitare" type="text" id="guitare" required>
           </div>
-          <button type="submit" [disabled]="!isFormValid" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Ajouter</button>
+          <button type="submit" [disabled]="!isFormInsertValid" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Ajouter</button>
     
     </form>
 </div>
@@ -77,31 +94,29 @@ body {font-size:16px;}
   <h2 class="w3-xxxlarge w3-text-red">Supprimer un guitariste</h2>
   <hr style="width:50px;border:5px solid red" class="w3-round">
   <div>
-    <select [(ngModel)]="selectedGuitaristeId" style="margin-right: 10px">
+    <select [(ngModel)]="selectDeleteGuitariste" style="margin-right: 10px">
       <option *ngFor="let g of guitaristeslist" [value]="g.id_Guitariste">ID: {{g.id_Guitariste}} | {{ g.nom }} | {{ g.prenom }} | {{ g.dateNaiss | date : "dd-MMM-yyyy" }}</option>
     </select>
-    <button (click)="onDeleteSelectedGuitariste()" class="w3-button w3-red" [disabled]="!selectedGuitaristeId">Supprimer</button>
+    <button (click)="onDeleteSelectedGuitariste()" class="w3-button w3-red" [disabled]="!selectDeleteGuitariste">Supprimer</button>
   </div>
 </div>
 
 
 
 
-<!-- Modifier un guitariste -->
-
 <div>
   <h2 class="w3-xxxlarge w3-text-red">Modifier un guitariste</h2>
   <hr style="width:50px;border:5px solid red" class="w3-round">
   <div>
+    <!-- Sélectionnez un guitariste à mettre à jour -->
     <select [(ngModel)]="selectedGuitaristeId" style="margin-right: 10px">
       <option *ngFor="let g of guitaristeslist" [value]="g.id_Guitariste">ID: {{g.id_Guitariste}} | {{ g.nom }} | {{ g.prenom }} | {{ g.dateNaiss | date : "dd-MMM-yyyy" }}</option>
-    </select>
+    </select>    
   </div>
   <div>
-  <br>
+    <br> 
     <!-- Formulaire pour mettre à jour le guitariste sélectionné -->
-    
-    <form [formGroup]="formgroup" (submit)="onUpdateSelectedGuitariste(selectedGuitaristeId)">
+    <form [formGroup]="formPostGuitariste" (submit)="onUpdateSelectedGuitariste()">
       <div class="w3-section">
         <label for="nom">Nom:</label>
         <input class="w3-input w3-border" type="text" id="nom" name="nom" formControlName="nom" required>
@@ -118,12 +133,10 @@ body {font-size:16px;}
         <label for="guitare">Guitare:</label>
         <input class="w3-input w3-border" type="text" id="guitare" name="guitare" formControlName="guitare" required>
       </div>
-      <button type="submit" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom" [disabled]="!isFormValid">Mettre à jour</button>
+      <button type="submit" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom" [disabled]="!isFormPostValid">Mettre à jour</button>
     </form>
   </div>
 </div>
-
-
 
 
 
