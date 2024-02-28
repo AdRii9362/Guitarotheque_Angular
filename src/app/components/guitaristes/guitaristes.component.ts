@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { GuitaristesService } from '../../services/guitaristes.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Guitaristes } from '../../models/guitaristes.model';
-
+import { format } from 'date-fns';
+import fr from 'date-fns/locale/fr';
 
 
 @Component({
@@ -25,8 +26,7 @@ export class GuitaristesComponent {
   formPostGuitariste! : FormGroup 
   isFormPostValid: boolean = false 
   selectedGuitaristeId: number | undefined;
-  selectedGuitariste: Guitaristes | undefined;
-  guitaristeslistIntermediaire: [] = [];
+  // guitaristeslistIntermediaire: [] = [];
 
 
   constructor( private _service : GuitaristesService,private formbuilder : FormBuilder){
@@ -62,7 +62,7 @@ export class GuitaristesComponent {
     // #region "GetAll Guitaristes"
     _service.getAllGuitariste().subscribe({
       next : (data : Guitaristes[])=> {
-        // console.log(data)
+        console.log(data)
         this.guitaristeslist = data
       }
     })  
@@ -247,6 +247,15 @@ onUpdateSelectedGuitariste() {
       dateNaiss,
       guitare: guitareNumbers
     };
+   
+
+    //conversion format date TS => npm install date fns
+    const oldDateNaiss = new Date(selectedGuitariste.dateNaiss);
+    const newDateNaiss = new Date(newData.dateNaiss);
+    
+    // Formater les dates en utilisant le format 'dd-MMM-yyyy' en français
+    const formattedOldDate = format(oldDateNaiss, 'dd-MMM-yyyy', {locale: fr});
+    const formattedNewDate = format(newDateNaiss, 'dd-MMM-yyyy',{locale: fr});
 
     // Afficher la confirmation avec les anciennes et les nouvelles données
     if (confirm(
@@ -255,13 +264,13 @@ onUpdateSelectedGuitariste() {
       Anciennes données:
       Nom: ${selectedGuitariste.nom}
       Prénom: ${selectedGuitariste.prenom}
-      Date de naissance: ${selectedGuitariste.dateNaiss}
+      Date de naissance: ${formattedOldDate}
       Guitare: ${selectedGuitariste.guitare}
       
       Nouvelles données:
       Nom: ${newData.nom}
       Prénom: ${newData.prenom}
-      Date de naissance: ${newData.dateNaiss}
+      Date de naissance: ${formattedNewDate}
       Guitare: ${newData.guitare}`
     )) {
       // Si l'utilisateur confirme, appeler le service pour mettre à jour le guitariste

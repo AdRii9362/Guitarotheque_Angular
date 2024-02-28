@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GuitaresComponent } from './components/guitares/guitares.component';
 import { AccessoiresComponent } from './components/accessoires/accessoires.component';
 import { GroupesComponent } from './components/groupes/groupes.component';
+import localeFrBe from '@angular/common/locales/fr-BE';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeFrBe);
 
 @NgModule({
   declarations: [
@@ -29,7 +33,9 @@ import { GroupesComponent } from './components/groupes/groupes.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: "fr-BE" }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

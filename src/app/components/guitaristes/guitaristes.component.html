@@ -51,13 +51,14 @@ body {font-size:16px;}
 
 
 
-
+<!-- Afficher les guitaristes dans des conteneurs -->
   <div class="w3-row-padding w3-grayscale">
     <div *ngFor="let g of guitaristeslist; let i = index" class="w3-col m4 w3-margin-bottom">
       <div class="w3-light-grey">
         <div class="w3-container">
           <h3>{{ g.nom }} {{ g.prenom }}</h3>
-          <p class="w3-opacity">Date de naissance: {{ g.dateNaiss | date : "dd-MMM-yyyy" }}</p>
+          <p class="w3-opacity">Date de naissance: {{ g.dateNaiss | date : "dd MMMM yyyy" : '' : 'fr-BE' }}</p>
+          <p class="w3-opacity">Guitares: {{ g.guitare }}</p>
         </div>
       </div>
     </div>
