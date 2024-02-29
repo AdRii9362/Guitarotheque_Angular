@@ -25,6 +25,12 @@ export class GuitaresService {
   deleteGuitare(selectDeleteGuitareId: number): Observable<any> {
     
     return this._client.delete<any>(this.url + "Guitare/"+ selectDeleteGuitareId);
+  }
 
-}
+  updateGuitare(selectedGuitareId:number,guitare: Guitares): Observable<any>{
+    console.log(guitare);
+  
+    return this._client.put<any>(this.url + "Guitare/" + selectedGuitareId, guitare);
+    
+  }
 }

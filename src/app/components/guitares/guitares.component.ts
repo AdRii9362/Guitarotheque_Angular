@@ -18,6 +18,10 @@ isFormInsertValid: boolean = false //Insert
 
 selectDeleteGuitare: number = 0 //Delete
 
+formPostGuitare! : FormGroup 
+isFormPostValid: boolean = false 
+selectedGuitareId: number | undefined;
+
  constructor(private _service : GuitaresService, private formbuilder: FormBuilder) {
 
   _service.getAllGuitare().subscribe({
@@ -40,6 +44,20 @@ selectDeleteGuitare: number = 0 //Delete
   this.formInsertGuitare.valueChanges.subscribe(() => {
     this.isFormInsertValid = this.formInsertGuitare.valid;
   })
+
+   // #region "Initialisation formulaire Post Guitariste au lancement de la page"
+   this.formPostGuitare = this.formbuilder.group({ 
+    libelle: [""],
+    prix: [""],
+    nbrCordes : [""],
+    anneeDeSortie: [""],
+    description: [""]
+  })
+
+  this.formPostGuitare.valueChanges.subscribe(() => {
+    this.isFormPostValid = this.formPostGuitare.valid;
+  })
+  // #endregion
 
  }//end constructor
 
@@ -112,6 +130,76 @@ refreshGuitaresList() {
         console.error("Erreur lors du rafraîchissement de la liste des guitares :", error);
       }
     });
+
+  }
+
+// #region "Update Guitare"
+
+// Mettre à jour le guitariste sélectionné avec les données du formulaire
+onUpdateSelectedGuitare() {
+
+  // Récupérer l'ID du guitariste sélectionné
+  const selectedId: number | undefined = this.selectedGuitareId;
+
+  // Vérifier si l'ID est défini
+  if (selectedId !== undefined) {
+    // Rechercher la guitare correspondant dans votre liste de guitares
+    const selectedGuitare = this.guitarelist.find(g => g.id_Guitare === +selectedId);
+
+    // Vérifier si un guitariste a été trouvé
+    if (!selectedGuitare) {
+      console.error("Aucune guitare sélectionnée.");
+      return;
+    }
+
+    // Extraire les valeurs du formulaire
+    const libelle = this.formPostGuitare.get('libelle')?.value;
+    const prix = this.formPostGuitare.get('prix')?.value;
+    const nbrCordes = this.formPostGuitare.get('nbrCordes')?.value;
+    const anneeDeSortie = this.formPostGuitare.get('anneeDeSortie')?.value;
+    const description = this.formPostGuitare.get('description')?.value;
+   
+
+    // Préparer les nouvelles données
+    const newData = {
+      libelle,
+      prix,
+      nbrCordes,
+      anneeDeSortie,
+      description
+    };
+   
+
+    // Afficher la confirmation avec les anciennes et les nouvelles données
+    if (confirm(
+      `Êtes-vous sûr de vouloir mettre à jour ce guitariste?
+      
+      Anciennes données:
+      Libelle: ${selectedGuitare.libelle}
+      Prix: ${selectedGuitare.prix}€
+      Nombre de cordes: ${selectedGuitare.nbrCordes}
+      Année de sortie: ${selectedGuitare.anneeDeSortie}
+      Desciption: ${selectedGuitare.description}
+      
+      Nouvelles données:
+      Libelle: ${newData.libelle}
+      Prix: ${newData.prix}€
+      Nombre de cordes: ${newData.nbrCordes}
+      Année de sortie: ${newData.anneeDeSortie}
+      Desciption: ${newData.description}`
+    )) {
+      // Si l'utilisateur confirme, appeler le service pour mettre à jour le guitariste
+      this._service.updateGuitare(selectedId, newData).subscribe(() => {
+        console.log('Guitare mis à jour avec succès');
+        this.formPostGuitare.reset(); // Réinitialiser le formulaire après la mise à jour
+        window.location.reload();
+      });
+    }
+  } else {
+    console.error("Aucune guitare sélectionnée.");
+  }
+
+  // #endregion
 
 }
 
