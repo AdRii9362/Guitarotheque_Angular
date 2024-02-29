@@ -20,7 +20,7 @@ export class GuitaristesComponent {
   formInsertGuitariste! : FormGroup //Insert
   isFormInsertValid: boolean = false //Insert
   
-  selectDeleteGuitariste: number = 0
+  selectDeleteGuitariste: number = 0 //Delete
 
  
   formPostGuitariste! : FormGroup 
@@ -150,7 +150,7 @@ console.log(guitareNumbers)
 
       
       if (confirm(
-        `Êtes-vous sûr de vouloir mettre à jour ce guitariste?
+        `Êtes-vous sûr de vouloir supprimer ce guitariste?
       
       Guitaristes:
       ID: ${deletedGuitariste?.id_Guitariste}
@@ -196,14 +196,8 @@ console.log(guitareNumbers)
 
 // #endregion
 
-  // #region "Selection d'un guitariste"
 
-
-  // #endregion
-
-// #region "Selection d'un guitariste"
-
-
+// #region "Update Guitariste"
 
 // Mettre à jour le guitariste sélectionné avec les données du formulaire
 onUpdateSelectedGuitariste() {
@@ -308,6 +302,8 @@ onUpdateSelectedGuitariste() {
   } else {
     console.error("Aucun guitariste sélectionné.");
   }
+
+  // #endregion
 }
   }//fin class
   

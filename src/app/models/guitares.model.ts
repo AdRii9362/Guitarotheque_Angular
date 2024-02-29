@@ -4,5 +4,5 @@ export interface Guitares {
     libelle: string
     description: string
     prix: number
-    id_Guitare: number
+    id_Guitare?: number
   }

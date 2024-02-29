@@ -34,7 +34,7 @@ body {font-size:16px;}
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
    
-  <!-- Afficher les guitaristes dans des conteneurs  -->
+  <!-- Afficher les guitares dans des conteneurs  -->
   <div class="w3-row-padding w3-grayscale">
     <div *ngFor="let g of guitarelist; let i = index" class="w3-col m4 w3-margin-bottom">
       <div class="w3-light-grey">
@@ -44,13 +44,58 @@ body {font-size:16px;}
           <p class="w3-opacity">Nombre de cordes: {{g.nbrCordes}}</p>
           <p class="w3-opacity">Année de sortie: {{g.anneeDeSortie}}</p>
           <p class="w3-opacity">Description:</p>
-          <p class="w3-opacity">{{g.description}}</p>
-          
+          <p class="w3-opacity">{{g.description}}</p>         
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Formulaire pour ajouter une nouvelle guitare -->
+
+<div>
+  <h2 class="w3-xxxlarge w3-text-red">Ajouter une guitare</h2>
+  <hr style="width:50px;border:5px solid red" class="w3-round">
+  <form [formGroup]="formInsertGuitare" (ngSubmit)="InsertGuitare()" >
+    <div class="w3-section">
+      <label for="libelle">Libellé:</label>
+      <input class="w3-input w3-border" formControlName="libelle" type="text" id="libelle" name="libelle" required>
+    </div>
+    <div class="w3-section">
+      <label for="prix">Prix:</label>
+      <input class="w3-input w3-border" formControlName="prix" type="number" id="prix" name="prix" required>
+    </div>
+    <div class="w3-section">
+          <label for="nbrCordes">Nombre de cordes:</label>
+          <input class="w3-input w3-border" formControlName="nbrCordes" type="number" id="nbrCordes" name="nbrCordes" required>
+        </div>
+        <div class="w3-section">
+          <label for="anneeDeSortie">Année de sortie:</label>
+          <input class="w3-input w3-border" formControlName="anneeDeSortie" type="number" id="anneeDeSortie" name="anneeDeSortie" required>
+        </div>
+        <div class="w3-section">
+          <label for="description">Description:</label>
+          <textarea class="w3-input w3-border" formControlName="description" id="description" name="description" rows="10" required></textarea>
+        </div>
+        
+
+        <button type="submit" [disabled]="!isFormInsertValid" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Ajouter</button>
   
+  </form>
+</div>
+  
+
+<!-- Supprimer une guitare -->
+<div>
+  <h2 class="w3-xxxlarge w3-text-red">Supprimer une guitare</h2>
+  <hr style="width:50px;border:5px solid red" class="w3-round">
+  <div>
+    <select [(ngModel)]="selectDeleteGuitare" style="margin-right: 10px">
+      <option *ngFor="let g of guitarelist" [value]="g.id_Guitare">ID: {{g.id_Guitare}} | {{ g.libelle }} | Prix: {{ g.prix | currency: 'EUR' }} | Année: {{ g.anneeDeSortie }} </option>
+    </select>
+    <button (click)="onDeleteSelectedGuitare()" class="w3-button w3-red" [disabled]="!selectDeleteGuitare">Supprimer</button>
+  </div>
+</div>
+  <!-- End page content -->
 </div>
 
 <!-- W3.CSS Container -->

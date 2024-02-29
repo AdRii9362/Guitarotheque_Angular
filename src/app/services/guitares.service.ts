@@ -15,4 +15,16 @@ export class GuitaresService {
   getAllGuitare(): Observable<Guitares[]>{
     return this._client.get<Guitares[]>(this.url + "Guitare/GetAll")
   }
+
+  insertGuitare(guitare: Guitares): Observable<any> {
+    console.log(guitare);
+    
+    return this._client.post<any>(this.url + "Guitare/Insert", guitare);
+  }
+
+  deleteGuitare(selectDeleteGuitareId: number): Observable<any> {
+    
+    return this._client.delete<any>(this.url + "Guitare/"+ selectDeleteGuitareId);
+
+}
 }
