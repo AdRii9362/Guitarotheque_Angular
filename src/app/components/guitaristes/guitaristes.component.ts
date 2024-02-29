@@ -139,7 +139,28 @@ console.log(guitareNumbers)
 // #region "Delete Guitariste"
   onDeleteSelectedGuitariste() {
     if (this.selectDeleteGuitariste) {
-      if (confirm("Êtes-vous sûr de vouloir supprimer ce guitariste?")) {
+
+      const deletedGuitariste = this.guitaristeslist.find(g => g.id_Guitariste === Number(this.selectDeleteGuitariste));
+
+      let deletedGuitaristeDate: Date | undefined;
+
+    if (deletedGuitariste) {
+      deletedGuitaristeDate = new Date(deletedGuitariste.dateNaiss);
+      const formatDeletedDateGuitariste = format(deletedGuitaristeDate, 'dd MMMM yyyy', {locale: fr});
+
+      
+      if (confirm(
+        `Êtes-vous sûr de vouloir mettre à jour ce guitariste?
+      
+      Guitaristes:
+      ID: ${deletedGuitariste?.id_Guitariste}
+      Nom: ${deletedGuitariste?.nom}
+      Prénom: ${deletedGuitariste?.prenom}
+      Date de naissance: ${formatDeletedDateGuitariste}
+      Guitare(s): ${deletedGuitariste?.guitare}
+
+      `
+      )) {
         // Appeler votre service de suppression avec l'identifiant du guitariste sélectionné
         this._service.deleteGuitariste(this.selectDeleteGuitariste).subscribe(() => {
           console.log("Guitariste supprimé avec succès.");
@@ -149,6 +170,10 @@ console.log(guitareNumbers)
         });
       }
     } else {
+      console.error("La date de naissance du guitariste supprimé n'est pas définie.");
+    }
+    } 
+    else {
       console.error("Aucun guitariste sélectionné.");
     }
   }
@@ -224,7 +249,7 @@ onUpdateSelectedGuitariste() {
   // Vérifier si l'ID est défini
   if (selectedId !== undefined) {
     // Rechercher le guitariste correspondant dans votre liste de guitaristes
-    const selectedGuitariste = this.guitaristeslist.find(g => g.id_Guitariste == selectedId);
+    const selectedGuitariste = this.guitaristeslist.find(g => g.id_Guitariste === +selectedId);
 
     // Vérifier si un guitariste a été trouvé
     if (!selectedGuitariste) {
@@ -254,8 +279,8 @@ onUpdateSelectedGuitariste() {
     const newDateNaiss = new Date(newData.dateNaiss);
     
     // Formater les dates en utilisant le format 'dd-MMM-yyyy' en français
-    const formattedOldDate = format(oldDateNaiss, 'dd-MMM-yyyy', {locale: fr});
-    const formattedNewDate = format(newDateNaiss, 'dd-MMM-yyyy',{locale: fr});
+    const formattedOldDate = format(oldDateNaiss, 'dd MMMM yyyy', {locale: fr});
+    const formattedNewDate = format(newDateNaiss, 'dd MMMM yyyy',{locale: fr});
 
     // Afficher la confirmation avec les anciennes et les nouvelles données
     if (confirm(

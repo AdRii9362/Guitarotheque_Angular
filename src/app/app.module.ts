@@ -13,6 +13,7 @@ import { AccessoiresComponent } from './components/accessoires/accessoires.compo
 import { GroupesComponent } from './components/groupes/groupes.component';
 import localeFrBe from '@angular/common/locales/fr-BE';
 import { registerLocaleData } from '@angular/common';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 registerLocaleData(localeFrBe);
 
@@ -24,7 +25,8 @@ registerLocaleData(localeFrBe);
     GuitaristesComponent,
     GuitaresComponent,
     AccessoiresComponent,
-    GroupesComponent
+    GroupesComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
