@@ -74,6 +74,8 @@ InsertGuitare() {
           nbrCordes: this.formInsertGuitare.get('nbrCordes')?.value,
           description: this.formInsertGuitare.get('description')?.value
         };
+        //  const datas = new FormData();
+        //  datas.append()
   
         this._service.insertGuitare(data).subscribe(() => {
           console.log('Nouvelle guitare ajoutée avec succès');

@@ -40,6 +40,7 @@ body {font-size:16px;}
       <div class="w3-light-grey">
         <div class="w3-container">
           <h3>{{ g.libelle }} - ID:{{g.id_Guitare}}</h3>
+          <img [src]="'https://localhost:7206/images/'+ g.urlImage" alt="Romano Adriano" style="width:100%">
           <p class="w3-opacity">Prix: {{g.prix | currency: 'EUR'}}</p>
           <p class="w3-opacity">Nombre de cordes: {{g.nbrCordes}}</p>
           <p class="w3-opacity">Année de sortie: {{g.anneeDeSortie}}</p>
@@ -58,7 +59,7 @@ body {font-size:16px;}
   <form [formGroup]="formInsertGuitare" (ngSubmit)="InsertGuitare()" >
     <div class="w3-section">
       <label for="libelle">Libellé:</label>
-      <input class="w3-input w3-border" formControlName="libelle" type="text" id="libelle" name="libelle" required>
+      <input class="w3-input w3-border" formControlName="libelle" type="text" id="libelle" name="libelle" required>     
     </div>
     <div class="w3-section">
       <label for="prix">Prix:</label>
