@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Guitares } from '../../models/guitares.model';
 import { GuitaresService } from '../../services/guitares.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { de } from 'date-fns/locale';
 
 @Component({
   selector: 'app-guitares',
@@ -18,9 +17,15 @@ isFormInsertValid: boolean = false //Insert
 
 selectDeleteGuitare: number = 0 //Delete
 
-formPostGuitare! : FormGroup 
-isFormPostValid: boolean = false 
 selectedGuitareId: number | undefined;
+
+formPutGuitare! : FormGroup
+formPutImgGuitare! : FormGroup
+isFormPutValid: boolean = false  
+isFormPutImgValid: boolean = false
+
+
+fileToUpload: File | null = null;
 
  constructor(private _service : GuitaresService, private formbuilder: FormBuilder) {
 
@@ -46,7 +51,7 @@ selectedGuitareId: number | undefined;
   })
 
    // #region "Initialisation formulaire Post Guitariste au lancement de la page"
-   this.formPostGuitare = this.formbuilder.group({ 
+   this.formPutGuitare = this.formbuilder.group({ 
     libelle: [""],
     prix: [""],
     nbrCordes : [""],
@@ -54,8 +59,18 @@ selectedGuitareId: number | undefined;
     description: [""]
   })
 
-  this.formPostGuitare.valueChanges.subscribe(() => {
-    this.isFormPostValid = this.formPostGuitare.valid;
+  this.formPutGuitare.valueChanges.subscribe(() => {
+    this.isFormPutValid = this.formPutGuitare.valid;
+  })
+  // #endregion
+
+   // #region "Initialisation formulaire Post Guitariste au lancement de la page"
+   this.formPutImgGuitare = this.formbuilder.group({ 
+    ImgGuitare: [""]
+  })
+
+  this.formPutImgGuitare.valueChanges.subscribe(() => {
+    this.isFormPutImgValid = this.formPutImgGuitare.valid;
   })
   // #endregion
 
@@ -74,13 +89,11 @@ InsertGuitare() {
           nbrCordes: this.formInsertGuitare.get('nbrCordes')?.value,
           description: this.formInsertGuitare.get('description')?.value
         };
-        //  const datas = new FormData();
-        //  datas.append()
   
         this._service.insertGuitare(data).subscribe(() => {
           console.log('Nouvelle guitare ajoutée avec succès');
           this.formInsertGuitare.reset(); // Réinitialiser le formulaire après l'ajout
-          window.location.reload();
+          this.refreshGuitaresList();
         });
       }
         // #endregion
@@ -88,7 +101,7 @@ InsertGuitare() {
 
 // #region "Delete Guitariste"
 onDeleteSelectedGuitare() {
-  if (this.selectDeleteGuitare) {
+  if (this.selectDeleteGuitare != 0) {
 
     const deletedGuitare = this.guitarelist.find(g => g.id_Guitare === Number(this.selectDeleteGuitare));
 
@@ -107,9 +120,11 @@ onDeleteSelectedGuitare() {
       // Appeler votre service de suppression avec l'identifiant du guitariste sélectionné
       this._service.deleteGuitare(this.selectDeleteGuitare).subscribe(() => {
         console.log("Guitare supprimée avec succès.");
+
+        this.selectDeleteGuitare = 0
         // Rafraîchir la liste des guitaristes après la suppression
         this.refreshGuitaresList();
-        window.location.reload();
+        
       });
     }
   } else {
@@ -140,7 +155,7 @@ refreshGuitaresList() {
 // Mettre à jour le guitariste sélectionné avec les données du formulaire
 onUpdateSelectedGuitare() {
 
-  // Récupérer l'ID du guitariste sélectionné
+  // Récupérer l'ID de la guitare sélectionné
   const selectedId: number | undefined = this.selectedGuitareId;
 
   // Vérifier si l'ID est défini
@@ -155,11 +170,11 @@ onUpdateSelectedGuitare() {
     }
 
     // Extraire les valeurs du formulaire
-    const libelle = this.formPostGuitare.get('libelle')?.value;
-    const prix = this.formPostGuitare.get('prix')?.value;
-    const nbrCordes = this.formPostGuitare.get('nbrCordes')?.value;
-    const anneeDeSortie = this.formPostGuitare.get('anneeDeSortie')?.value;
-    const description = this.formPostGuitare.get('description')?.value;
+    const libelle = this.formPutGuitare.get('libelle')?.value;
+    const prix = this.formPutGuitare.get('prix')?.value;
+    const nbrCordes = this.formPutGuitare.get('nbrCordes')?.value;
+    const anneeDeSortie = this.formPutGuitare.get('anneeDeSortie')?.value;
+    const description = this.formPutGuitare.get('description')?.value;
    
 
     // Préparer les nouvelles données
@@ -193,8 +208,9 @@ onUpdateSelectedGuitare() {
       // Si l'utilisateur confirme, appeler le service pour mettre à jour le guitariste
       this._service.updateGuitare(selectedId, newData).subscribe(() => {
         console.log('Guitare mis à jour avec succès');
-        this.formPostGuitare.reset(); // Réinitialiser le formulaire après la mise à jour
-        window.location.reload();
+        this.formPutGuitare.reset(); // Réinitialiser le formulaire après la mise à jour
+        this.selectedGuitareId = undefined
+        this.refreshGuitaresList();
       });
     }
   } else {
@@ -202,7 +218,44 @@ onUpdateSelectedGuitare() {
   }
 
   // #endregion
+}
 
+handleFileInput(et : EventTarget | null) {
+  if(et !== null){
+    const target = et as HTMLInputElement; // Permet de caster et en HTMLInputElement
+    const files = target.files;
+    if(files != null) {
+      this.fileToUpload = files.item(0);
+    }
+  }
+}
+
+uploadFileToGuitare() {
+
+ // Récupérer l'ID de la guitare sélectionné
+ const selectedId: number | undefined = this.selectedGuitareId;
+
+ // Vérifier si l'ID est défini
+ if (selectedId !== undefined && this.fileToUpload != null) {
+   // Rechercher la guitare correspondant dans votre liste de guitares
+
+  
+   const formData: FormData = new FormData();
+   formData.append('GuitareImage', this.fileToUpload);
+  this._service.updateImgGuitares(selectedId, formData).subscribe({
+    next : (data) => {
+      this.selectedGuitareId=0
+      this.formPutImgGuitare.reset();
+      this.refreshGuitaresList();
+    },
+    error(err) {
+      
+    },
+  })
+
+  } else {
+    console.error("Aucune guitare sélectionnée.");
+  }
 }
 
 // #endregion

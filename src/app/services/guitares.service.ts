@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Guitares } from '../models/guitares.model';
 import { Observable } from 'rxjs';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,4 +34,14 @@ export class GuitaresService {
     return this._client.put<any>(this.url + "Guitare/" + selectedGuitareId, guitare);
     
   }
+
+  updateImgGuitares(selectedGuitareId: number, form: FormData) {
+    
+    return this._client.put<any>(this.url + "Guitare/" + selectedGuitareId + "/UpdateImgGuitares", form);
 }
+}
+
+
+  
+
+
