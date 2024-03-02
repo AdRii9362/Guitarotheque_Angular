@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Guitares } from '../../models/guitares.model';
+import { GuitaresService } from '../../services/guitares.service';
+
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
-  styleUrl: './pagination.component.scss'
+  styleUrls: ['./pagination.component.scss']
 })
-export class PaginationComponent {
+export class PaginationComponent  {
 
 
   constructor() { }
 
+  
+}
 
-  }
 

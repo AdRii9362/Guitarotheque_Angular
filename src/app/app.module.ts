@@ -15,6 +15,7 @@ import localeFrBe from '@angular/common/locales/fr-BE';
 import { registerLocaleData } from '@angular/common';
 import { PaginationComponent } from './components/pagination/pagination.component';
 
+
 registerLocaleData(localeFrBe);
 
 @NgModule({

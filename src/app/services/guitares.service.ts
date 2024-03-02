@@ -39,6 +39,10 @@ export class GuitaresService {
     
     return this._client.put<any>(this.url + "Guitare/" + selectedGuitareId + "/UpdateImgGuitares", form);
 }
+
+getAllGuitarePag(pageNumber: number): Observable<Guitares[]> {
+  return this._client.get<Guitares[]>(this.url + "Guitare/GetAllPagination?pageNumber="+ pageNumber);
+}
 }
 
 

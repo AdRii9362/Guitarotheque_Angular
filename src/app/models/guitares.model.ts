@@ -6,4 +6,5 @@ export interface Guitares {
     prix: number
     id_Guitare?: number
     urlImage? : string
+    
   }

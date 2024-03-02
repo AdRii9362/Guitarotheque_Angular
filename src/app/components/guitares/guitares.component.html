@@ -34,7 +34,38 @@ body {font-size:16px;}
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
    
-  <div class="w3-row-padding w3-grayscale">
+
+<!-- TestPagination -->
+<div class="w3-row-padding w3-grayscale">
+  <!-- Boucle sur la liste des guitares paginées -->
+  <div *ngFor="let g of guitarelistpag; let i = index" class="w3-col m4 w3-margin-bottom" style="height: 1000px;">
+    <div class="w3-light-grey" style="height: 100%; display: flex; flex-direction: column;">
+      <div class="w3-container" style="flex-grow: 1;">
+        <h3>{{ g.libelle }} - ID:{{g.id_Guitare}}</h3>
+        <div style="width: 99%; height: 35%;">
+          <img class="ImgGuitare" [src]="'https://localhost:7206/images/'+ g.urlImage" alt="Romano Adriano">
+        </div>
+        <p class="w3-opacity">Prix: {{g.prix | currency: 'EUR'}}</p>
+        <p class="w3-opacity">Nombre de cordes: {{g.nbrCordes}}</p>
+        <p class="w3-opacity">Année de sortie: {{g.anneeDeSortie}}</p>
+        <p class="w3-opacity">Description:</p>
+        <p class="w3-opacity">{{g.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Boutons de pagination -->
+<div class="button-container">
+  <button (click)="prevPage()" class="w3-button w3-red" [disabled]="currentPage === 1">Précédent</button>
+  <button (click)="nextPage()" class="w3-button w3-red" [disabled]="currentPage === totalPages">Suivant</button>
+</div>
+
+
+
+
+  <!-- GetAll -->
+  <!-- <div class="w3-row-padding w3-grayscale">
     <div *ngFor="let g of guitarelist; let i = index" class="w3-col m4 w3-margin-bottom" style="height: 1000px;">
       <div class="w3-light-grey" style="height: 100%; display: flex; flex-direction: column;">
         <div class="w3-container" style="flex-grow: 1;">
@@ -50,7 +81,7 @@ body {font-size:16px;}
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   
 
   <!-- Formulaire pour ajouter une nouvelle guitare -->
@@ -93,8 +124,8 @@ body {font-size:16px;}
   <hr style="width:50px;border:5px solid red" class="w3-round">
   <div>
     <select [(ngModel)]="selectDeleteGuitare" style="margin-right: 10px">
-      <option value="0">Choisir une guitare</option>
-      <option *ngFor="let g of guitarelist" [value]="g.id_Guitare">ID: {{g.id_Guitare}} | {{ g.libelle }} | Prix: {{ g.prix | currency: 'EUR' }} | Année: {{ g.anneeDeSortie }} | Nombre de cordes: {{g.nbrCordes}} </option>
+      <option value="0">Sélection de la guitare</option>
+      <option *ngFor="let g of guitarelistpag" [value]="g.id_Guitare">ID: {{g.id_Guitare}} | {{ g.libelle }} | Prix: {{ g.prix | currency: 'EUR' }} | Année: {{ g.anneeDeSortie }} | Nombre de cordes: {{g.nbrCordes}} </option>
     </select>
     <button (click)="onDeleteSelectedGuitare()" class="w3-button w3-red" [disabled]="!selectDeleteGuitare">Supprimer</button>
   </div>
@@ -108,7 +139,7 @@ body {font-size:16px;}
   <div>
     <!-- Sélectionnez un guitariste à mettre à jour -->
     <select [(ngModel)]="selectedGuitareId" style="margin-right: 10px">
-      <option *ngFor="let g of guitarelist" [value]="g.id_Guitare">ID: {{g.id_Guitare}} | {{ g.libelle }} | Prix: {{ g.prix | currency: 'EUR' }} | Année: {{ g.anneeDeSortie }} | Nombre de cordes: {{g.nbrCordes}} </option>
+      <option *ngFor="let g of guitarelistpag" [value]="g.id_Guitare">ID: {{g.id_Guitare}} | {{ g.libelle }} | Prix: {{ g.prix | currency: 'EUR' }} | Année: {{ g.anneeDeSortie }} | Nombre de cordes: {{g.nbrCordes}} </option>
     </select>    
   </div>
   <div>

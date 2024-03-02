@@ -3,6 +3,7 @@ import { Guitares } from '../../models/guitares.model';
 import { GuitaresService } from '../../services/guitares.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+
 @Component({
   selector: 'app-guitares',
   templateUrl: './guitares.component.html',
@@ -27,15 +28,40 @@ isFormPutImgValid: boolean = false
 
 fileToUpload: File | null = null;
 
- constructor(private _service : GuitaresService, private formbuilder: FormBuilder) {
+  currentPage: number = 1;
+  pageSize: number = 9;
+  guitarelistpag: Guitares[]=[]
+  totalPages: number = 0;
+  totalItems:number =0;
 
-  _service.getAllGuitare().subscribe({
-    next : (data: Guitares[])=> {
-      console.log(data);
-      this.guitarelist = data
-      
-    }
-  })
+
+ constructor(private _service : GuitaresService, private formbuilder: FormBuilder) {
+   
+   _service.getAllGuitare().subscribe({
+     next : (data: Guitares[])=> {
+       console.log(data);
+       this.guitarelist = data
+       
+     }
+   })
+  // #region TEST
+ 
+  _service.getAllGuitarePag(this.currentPage).subscribe({
+    next : (data2: Guitares[])=> {
+          console.log(data2);
+
+          this.guitarelistpag = data2
+          this.totalItems = this.guitarelist.length; // Utilisation de la longueur du tableau de guitares
+
+         this.calculateTotalPages();
+        
+  }
+})
+
+  // #endregion
+
+
+  
 
   this.formInsertGuitare = this.formbuilder.group({ 
     libelle: [""],
@@ -75,6 +101,45 @@ fileToUpload: File | null = null;
   // #endregion
 
  }//end constructor
+
+ // #region "TEST"
+
+ calculateTotalPages(): void {
+  this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+}
+
+// // Méthode pour charger les guitares de la page spécifiée
+loadPaginatedGuitares(): void {
+  this._service.getAllGuitarePag(this.currentPage).subscribe({
+    next : (data2: Guitares[])=> {
+          console.log(data2);
+          this.guitarelistpag = data2
+          this.totalItems = this.guitarelist.length; // Utilisation de la longueur du tableau de guitares
+          this.calculateTotalPages();
+  }
+})
+}
+
+// // Méthode pour passer à la page suivante
+nextPage(): void {
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++;
+    console.log("next");
+    
+    this.loadPaginatedGuitares();
+  }
+}
+
+prevPage(): void {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+    this.loadPaginatedGuitares();
+  }
+}
+
+// #endregion
+// #region "code OK"
+
 
 
 // #region "Insertion guitare"
@@ -132,8 +197,9 @@ onDeleteSelectedGuitare() {
   }
   }
 
+// #endregion
 
-
+// #region "refreshlist"
 refreshGuitaresList() {
   // Réinitialiser la liste des guitares ou recharger les données depuis le service
 
@@ -148,7 +214,21 @@ refreshGuitaresList() {
       }
     });
 
+    this._service.getAllGuitarePag(this.currentPage).subscribe({
+      next : (data2: Guitares[])=> {
+            console.log(data2);
+            this.guitarelistpag = data2
+            this.totalItems = this.guitarelist.length; // Utilisation de la longueur du tableau de guitares
+            this.calculateTotalPages();
+      },
+      error: (error: any) => {
+        console.error("Erreur lors du rafraîchissement de la liste des guitares :", error);
+      }
+    });
+
   }
+
+// #endregion
 
 // #region "Update Guitare"
 
@@ -260,6 +340,8 @@ uploadFileToGuitare() {
 
 // #endregion
 
+
+// #enregion
 }//end class
 
 
