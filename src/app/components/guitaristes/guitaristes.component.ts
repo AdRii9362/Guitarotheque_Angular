@@ -131,7 +131,7 @@ console.log(guitareNumbers)
       this._service.insertGuitariste(data).subscribe(() => {
         console.log('Nouveau guitariste ajouté avec succès');
         this.formInsertGuitariste.reset(); // Réinitialiser le formulaire après l'ajout
-        window.location.reload();
+        this.refreshGuitaristesList();
       });
     }
       // #endregion
@@ -166,7 +166,7 @@ console.log(guitareNumbers)
           console.log("Guitariste supprimé avec succès.");
           // Rafraîchir la liste des guitaristes après la suppression
           this.refreshGuitaristesList();
-          window.location.reload();
+          
         });
       }
     } else {
@@ -296,7 +296,7 @@ onUpdateSelectedGuitariste() {
       this._service.updateGuitariste(selectedId, newData).subscribe(() => {
         console.log('Guitariste mis à jour avec succès');
         this.formPostGuitariste.reset(); // Réinitialiser le formulaire après la mise à jour
-        window.location.reload();
+        this.refreshGuitaristesList();
       });
     }
   } else {
