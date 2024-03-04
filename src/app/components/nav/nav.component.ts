@@ -25,13 +25,25 @@ export class NavComponent {
   }
 
   private checkScreenSize() {
-    // Déterminer si l'écran est petit en fonction de la largeur de la fenêtre
-    this.isSmallScreen = window.innerWidth <= 768;
+    const thresholdWidth = 995; // Seuil de la largeur de l'écran pour basculer en mode plein écran
+  
+    const windowWidth = window.innerWidth;
+    const isSidebarOpen = !this.isSidebarCollapsed; // Vérifier si la barre latérale est actuellement ouverte
+  
+    // Si la barre latérale est actuellement ouverte et que la largeur de l'écran dépasse le seuil, la conserver ouverte
+    if (isSidebarOpen && windowWidth >= thresholdWidth) {
+      this.isSmallScreen = false;
+    } else {
+      // Sinon, déterminer si l'écran est petit en fonction de la largeur de la fenêtre
+      this.isSmallScreen = windowWidth < thresholdWidth;
+    }
+  
     // Afficher ou masquer la barre latérale en fonction de la taille de l'écran
     if (!this.isSmallScreen) {
       this.isSidebarCollapsed = false; // Toujours afficher la barre latérale sur les grands écrans
     }
   }
+  
 
   toggleSidebar() {
     if (this.isSmallScreen) {

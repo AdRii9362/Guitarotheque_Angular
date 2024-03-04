@@ -36,32 +36,16 @@ fileToUpload: File | null = null;
 
 
  constructor(private _service : GuitaresService, private formbuilder: FormBuilder) {
-   
-   _service.getAllGuitare().subscribe({
-     next : (data: Guitares[])=> {
-       console.log(data);
-       this.guitarelist = data
-       
-     }
-   })
-  // #region TEST
- 
-  _service.getAllGuitarePag(this.currentPage).subscribe({
-    next : (data2: Guitares[])=> {
-          console.log(data2);
 
-          this.guitarelistpag = data2
-          this.totalItems = this.guitarelist.length; // Utilisation de la longueur du tableau de guitares
-
-         this.calculateTotalPages();
-        
+this._service.getAllGuitarePag(this.currentPage).subscribe({
+  next: (data: { guitares: Guitares[], totalItems: number }) => {
+    this.guitarelistpag = data.guitares;
+    this.totalItems = data.totalItems;
+    this.calculateTotalPages();
   }
-})
+});
 
-  // #endregion
-
-
-  
+  // #endregion 
 
   this.formInsertGuitare = this.formbuilder.group({ 
     libelle: [""],
@@ -102,7 +86,7 @@ fileToUpload: File | null = null;
 
  }//end constructor
 
- // #region "TEST"
+ // #region "Pagination"
 
  calculateTotalPages(): void {
   this.totalPages = Math.ceil(this.totalItems / this.pageSize);
@@ -110,34 +94,111 @@ fileToUpload: File | null = null;
 
 // // Méthode pour charger les guitares de la page spécifiée
 loadPaginatedGuitares(): void {
-  this._service.getAllGuitarePag(this.currentPage).subscribe({
-    next : (data2: Guitares[])=> {
-          console.log(data2);
-          this.guitarelistpag = data2
-          this.totalItems = this.guitarelist.length; // Utilisation de la longueur du tableau de guitares
-          this.calculateTotalPages();
+
+this._service.getAllGuitarePag(this.currentPage).subscribe({
+  next: (data: { guitares: Guitares[], totalItems: number }) => {
+    this.guitarelistpag = data.guitares;
+    this.totalItems = data.totalItems;
+    this.calculateTotalPages();
   }
-})
+});
 }
 
-// // Méthode pour passer à la page suivante
-nextPage(): void {
-  if (this.currentPage < this.totalPages) {
-    this.currentPage++;
-    console.log("next");
-    
+scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+goToPage(page: number | string): void {
+  if (typeof page === 'number') {
+    this.currentPage = page;
     this.loadPaginatedGuitares();
+    this.scrollToTop();
+   
+  } else if (page === '+') {
+    this.nextPages();
+
+  } else if (page === '-' && this.currentPage > 5) {
+    this.prevPages();
+
   }
 }
 
-prevPage(): void {
+goToFirstPage() {
+  this.currentPage = 1;
+  this.loadPaginatedGuitares();
+  this.scrollToTop();
+
+}
+
+goToLastPage() {
+  this.currentPage = this.totalPages;
+  this.loadPaginatedGuitares();
+  this.scrollToTop();
+
+}
+
+prevPages() {
+  const prevPage = Math.max(1, this.currentPage - 1);
+  this.currentPage = prevPage;
+  this.loadPaginatedGuitares();
+  this.scrollToTop();
+
+}
+
+nextPages() {
+  const nextPage = Math.min(this.totalPages, this.currentPage + 1);
+  this.currentPage = nextPage;
+  this.loadPaginatedGuitares();
+  this.scrollToTop();
+
+}
+
+nextFivePages() {
+  const nextPage = Math.min(this.totalPages, this.currentPage + 5);
+  this.currentPage = nextPage;
+  this.loadPaginatedGuitares();
+  this.scrollToTop();
+}
+
+prevFivePages() {
+  const prevPage = Math.max(1, this.currentPage - 5);
+  this.currentPage = prevPage;
+  this.loadPaginatedGuitares();
+  this.scrollToTop();
+}
+getPaginationArray(): (number | string)[] {
+  const paginationArray = [];
+  const visiblePages = 5;
+
+  // Calculer les limites des pages à afficher
+  const startPage = Math.max(1, this.currentPage);
+  const endPage = Math.min(this.totalPages, startPage + visiblePages - 1);
+
+  // Ajouter les boutons "-" et les pages précédentes si nécessaire
   if (this.currentPage > 1) {
-    this.currentPage--;
-    this.loadPaginatedGuitares();
+    paginationArray.push('-');
+
   }
+  for (let i = startPage; i <= endPage; i++) {
+    paginationArray.push(i);
+
+  }
+
+  // Ajouter les boutons "+" et les pages suivantes si nécessaire
+  if (endPage < this.totalPages) {
+    paginationArray.push('+');
+
+  }
+
+  return paginationArray;
+}
+
+isNumber(value: any): boolean {
+  return typeof value === 'number';
 }
 
 // #endregion
+
 // #region "code OK"
 
 
@@ -168,7 +229,7 @@ InsertGuitare() {
 onDeleteSelectedGuitare() {
   if (this.selectDeleteGuitare != 0) {
 
-    const deletedGuitare = this.guitarelist.find(g => g.id_Guitare === Number(this.selectDeleteGuitare));
+    const deletedGuitare = this.guitarelistpag.find(g => g.id_Guitare === Number(this.selectDeleteGuitare));
 
     if (confirm(
       `Êtes-vous sûr de vouloir supprimer cette guitare?
@@ -204,22 +265,22 @@ refreshGuitaresList() {
   // Réinitialiser la liste des guitares ou recharger les données depuis le service
 
     //  Recharger les données des guitaristes depuis le service
-    this._service.getAllGuitare().subscribe({
-      next: (data: Guitares[]) => {
-        console.log(data);
-        this.guitarelist = data;
-      },
-      error: (error: any) => {
-        console.error("Erreur lors du rafraîchissement de la liste des guitares :", error);
-      }
-    });
+    // this._service.getAllGuitare().subscribe({
+    //   next: (row: Guitares[]) => {
+    //     console.log(row.length); // Nombre de lignes dans les données retournées
+    //   },
+    //   error: (error: any) => {
+    //     console.error("Erreur lors du rafraîchissement de la liste des guitares :", error);
+    //   }
+    // });
 
     this._service.getAllGuitarePag(this.currentPage).subscribe({
-      next : (data2: Guitares[])=> {
-            console.log(data2);
-            this.guitarelistpag = data2
-            this.totalItems = this.guitarelist.length; // Utilisation de la longueur du tableau de guitares
-            this.calculateTotalPages();
+   
+        next: (data: { guitares: Guitares[], totalItems: number }) => {
+          this.guitarelistpag = data.guitares;
+          this.totalItems = data.totalItems;
+          this.calculateTotalPages();
+
       },
       error: (error: any) => {
         console.error("Erreur lors du rafraîchissement de la liste des guitares :", error);
@@ -241,7 +302,7 @@ onUpdateSelectedGuitare() {
   // Vérifier si l'ID est défini
   if (selectedId !== undefined) {
     // Rechercher la guitare correspondant dans votre liste de guitares
-    const selectedGuitare = this.guitarelist.find(g => g.id_Guitare === +selectedId);
+    const selectedGuitare = this.guitarelistpag.find(g => g.id_Guitare === +selectedId);
 
     // Vérifier si un guitariste a été trouvé
     if (!selectedGuitare) {
