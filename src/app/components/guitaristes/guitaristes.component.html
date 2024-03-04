@@ -52,17 +52,45 @@ body {font-size:16px;}
 
 
 <!-- Afficher les guitaristes dans des conteneurs -->
-  <div class="w3-row-padding w3-grayscale">
-    <div *ngFor="let g of guitaristeslist; let i = index" class="w3-col m4 w3-margin-bottom">
-      <div class="w3-light-grey">
-        <div class="w3-container">
+  <div class="w3-row-padding" style="display:flex; flex-direction: row; flex-wrap: wrap;">
+    <div *ngFor="let g of guitaristeslist; let i = index" class="w3-light-grey m4 w3-margin-bottom flex-col-adapt">
+      <div class="w3-light-grey" style="height: 100%; display: flex; flex-direction: column;">
+        <div class="w3-container" style="flex-grow: 1;">
           <h3>{{ g.nom }} {{ g.prenom }}</h3>
           <p class="w3-opacity">Date de naissance: {{ g.dateNaiss | date : "dd MMMM yyyy" : '' : 'fr-BE' }}</p>
-          <p class="w3-opacity">Guitares: {{ g.guitare }}</p>
+          <div *ngFor="let nomGuitare of g.libelle_Guitare; let i = index">
+            <li class="w3-opacity custom-link" (click)="popup(g.id_Guitare![i])">{{ nomGuitare }}</li>
+          </div>
+          <!-- <p class="w3-opacity">Guitares: {{ g.libelle_Guitare }}</p> -->
         </div>
       </div>
     </div>
   </div>
+
+  <dialog close id="modalGuitare">
+    <ng-container *ngIf="guitareModal">
+      <div style="text-align: center;">
+        <p>{{guitareModal.libelle}}</p>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+        <div style="display: flex; justify-content: center;">
+          <img class="ImgGuitare" [src]="'https://localhost:7206/images/' + guitareModal.urlImage" alt="Romano Adriano">
+        </div>
+      </div>
+      <p>Prix: {{guitareModal.prix | currency:'EUR'}}</p>
+      <p>Nombres de cordes: {{guitareModal.nbrCordes}}</p>
+      <p>Année de sortie: {{guitareModal.anneeDeSortie}}</p>
+      <p>Description:</p>
+      <p>{{guitareModal.description}}</p>
+      <form method="dialog">
+        <button class="w3-button w3-red " style="position: absolute; top: 0; right: 0;">X</button>
+      </form>
+      </ng-container>
+  </dialog>
+  
+
+  
+  
+  
   
 <!-- Formulaire pour ajouter un nouveau guitariste -->
 <div>

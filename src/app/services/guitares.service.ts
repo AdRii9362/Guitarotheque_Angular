@@ -17,6 +17,11 @@ export class GuitaresService {
     return this._client.get<Guitares[]>(this.url + "Guitare/GetAll")
   }
 
+  
+  getGuitare(id : number): Observable<Guitares>{
+    return this._client.get<Guitares>(this.url + "Guitare/"+id)
+  }
+
   insertGuitare(guitare: Guitares): Observable<any> {
     console.log(guitare);
     

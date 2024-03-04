@@ -4,4 +4,6 @@ export interface Guitaristes {
     prenom: string
     dateNaiss: Date
     guitare: number[]
+    id_Guitare?: number[]
+    libelle_Guitare?: string []
   }

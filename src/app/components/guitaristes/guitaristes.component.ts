@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Guitaristes } from '../../models/guitaristes.model';
 import { format } from 'date-fns';
 import fr from 'date-fns/locale/fr';
+import { GuitaresService } from '../../services/guitares.service';
+import { id } from 'date-fns/locale';
+import { Guitares } from '../../models/guitares.model';
 
 
 @Component({
@@ -16,6 +19,8 @@ export class GuitaristesComponent {
   
 
   guitaristeslist: Guitaristes[] = [];
+  guitareModal : Guitares | undefined;
+
 
   formInsertGuitariste! : FormGroup //Insert
   isFormInsertValid: boolean = false //Insert
@@ -29,7 +34,10 @@ export class GuitaristesComponent {
   // guitaristeslistIntermediaire: [] = [];
 
 
-  constructor( private _service : GuitaristesService,private formbuilder : FormBuilder){
+  constructor( 
+    private _service : GuitaristesService,
+    private formbuilder : FormBuilder, 
+    private _serviceGuitare: GuitaresService){
   // #region "GetAll variable intermediaire"
 
   //   this._service.getAllGuitariste().subscribe((data: Guitaristes[]) => {
@@ -67,6 +75,8 @@ export class GuitaristesComponent {
       }
     })  
     // #endregion
+
+    
 
 // #region "Initialisation formulaire Insertion Guitariste au lancement de la page"
     this.formInsertGuitariste = this.formbuilder.group({ 
@@ -157,7 +167,7 @@ console.log(guitareNumbers)
       Nom: ${deletedGuitariste?.nom}
       Prénom: ${deletedGuitariste?.prenom}
       Date de naissance: ${formatDeletedDateGuitariste}
-      Guitare(s): ${deletedGuitariste?.guitare}
+      Guitare(s): ${deletedGuitariste?.id_Guitare}
 
       `
       )) {
@@ -284,7 +294,7 @@ onUpdateSelectedGuitariste() {
       Nom: ${selectedGuitariste.nom}
       Prénom: ${selectedGuitariste.prenom}
       Date de naissance: ${formattedOldDate}
-      Guitare: ${selectedGuitariste.guitare}
+      Guitare: ${selectedGuitariste.id_Guitare}
       
       Nouvelles données:
       Nom: ${newData.nom}
@@ -303,9 +313,29 @@ onUpdateSelectedGuitariste() {
     console.error("Aucun guitariste sélectionné.");
   }
 
+
   // #endregion
 }
-  }//fin class
+// #region popupImageGuitare (peut etre optimisé)
+public popup(id_guitare : number) : void{
+  this._serviceGuitare.getGuitare(id_guitare).subscribe(
+    {
+      next : (data : Guitares) => this._showModal(data),
+      error : (err) => console.error(err)      
+    }
+  )
+}
+
+private _showModal(guitare : Guitares) : void{
+  this.guitareModal = guitare;
+  if (this.guitareModal != undefined) {    
+    let modal = document.querySelector('#modalGuitare') as HTMLDialogElement;
+    modal.showModal();
+  }
+}
+// #endregion
+
+}//fin class
   
   
   
