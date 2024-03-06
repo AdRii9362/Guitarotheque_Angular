@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Guitares } from '../../models/guitares.model';
 import { GuitaresService } from '../../services/guitares.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -10,6 +11,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './guitares.component.scss'
 })
 export class GuitaresComponent {
+
+  status!:boolean
 
 guitarelist: Guitares[] = []
 
@@ -35,7 +38,15 @@ fileToUpload: File | null = null;
   totalItems:number =0;
 
 
- constructor(private _service : GuitaresService, private formbuilder: FormBuilder) {
+ constructor(
+  private _service : GuitaresService, 
+  private formbuilder: FormBuilder,
+  private _authService: AuthService) {
+
+    _authService.isTokenExistSub.subscribe({
+      next : (value : boolean) => this.status = value
+    })
+    _authService.emitTokenExist()
 
 this._service.getAllGuitarePag(this.currentPage).subscribe({
   next: (data: { guitares: Guitares[], totalItems: number }) => {

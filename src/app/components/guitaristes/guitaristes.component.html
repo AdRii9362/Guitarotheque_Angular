@@ -61,12 +61,12 @@ body {font-size:16px;}
           <div *ngFor="let nomGuitare of g.libelle_Guitare; let i = index">
             <li class="w3-opacity custom-link" (click)="popup(g.id_Guitare![i])">{{ nomGuitare }}</li>
           </div>
-          <!-- <p class="w3-opacity">Guitares: {{ g.libelle_Guitare }}</p> -->
         </div>
       </div>
     </div>
   </div>
 
+  <!-- popup image guitare -->
   <dialog close id="modalGuitare">
     <ng-container *ngIf="guitareModal">
       <div style="text-align: center;">
@@ -89,8 +89,13 @@ body {font-size:16px;}
   
 
   
+  <div *ngIf="status">
   
-  
+    <div class="w3-container" style="margin-top:80px" id="showcase">
+      <h1 class="w3-jumbo"><b>MENU ADMIN</b></h1>
+      <!-- petite barre rouge -->
+      <hr style="width:50px;border:5px solid red" class="w3-round">
+    </div>
   
 <!-- Formulaire pour ajouter un nouveau guitariste -->
 <div>
@@ -131,8 +136,7 @@ body {font-size:16px;}
 </div>
 
 
-
-
+<!-- modifier un guitariste -->
 <div>
   <h2 class="w3-xxxlarge w3-text-red">Modifier un guitariste</h2>
   <hr style="width:50px;border:5px solid red" class="w3-round">
@@ -167,14 +171,14 @@ body {font-size:16px;}
   </div>
 </div>
 
-
+</div>
 
 
 <!-- End page content -->
 </div>
 
 <!-- W3.CSS Container -->
-<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:530px;padding-right:58px">
+<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:100px;padding-right:58px">
     <p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p>
   </div>
 </body>

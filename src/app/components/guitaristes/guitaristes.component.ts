@@ -5,8 +5,8 @@ import { Guitaristes } from '../../models/guitaristes.model';
 import { format } from 'date-fns';
 import fr from 'date-fns/locale/fr';
 import { GuitaresService } from '../../services/guitares.service';
-import { id } from 'date-fns/locale';
 import { Guitares } from '../../models/guitares.model';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -17,6 +17,7 @@ import { Guitares } from '../../models/guitares.model';
 
 export class GuitaristesComponent {
   
+  status!:boolean
 
   guitaristeslist: Guitaristes[] = [];
   guitareModal : Guitares | undefined;
@@ -37,7 +38,8 @@ export class GuitaristesComponent {
   constructor( 
     private _service : GuitaristesService,
     private formbuilder : FormBuilder, 
-    private _serviceGuitare: GuitaresService){
+    private _serviceGuitare: GuitaresService,
+    private _authService: AuthService){
   // #region "GetAll variable intermediaire"
 
   //   this._service.getAllGuitariste().subscribe((data: Guitaristes[]) => {
@@ -66,6 +68,10 @@ export class GuitaristesComponent {
   // });
   
     // #endregion
+    _authService.isTokenExistSub.subscribe({
+      next : (value : boolean) => this.status = value
+    })
+    _authService.emitTokenExist()
 
     // #region "GetAll Guitaristes"
     _service.getAllGuitariste().subscribe({

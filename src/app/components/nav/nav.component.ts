@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-nav',
@@ -11,10 +12,17 @@ export class NavComponent {
   //variable de verification pour la sidebar
   isSidebarCollapsed: boolean = true;
   isSmallScreen: boolean = false;
+  status!:boolean
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+    private _authService : AuthService) {
     // Vérifier la taille de l'écran au chargement de la page
     this.checkScreenSize();
+
+    _authService.isTokenExistSub.subscribe({
+      next : (value : boolean) => this.status = value
+    })
+    _authService.emitTokenExist()
   }
 
   // #region "SideBar"
@@ -52,4 +60,7 @@ export class NavComponent {
   }
 // #endregion
   
+logout(){
+  this._authService.logout();
+}
 }

@@ -1,12 +1,11 @@
-
-
-div.flex-col-adapt{
-  max-width: 24%;
-  overflow: auto;
-  height: 200px; 
-  flex-grow: 1;
-  margin: 0 auto;
-} 
+div.flex-col-adapt {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Pour répartir les éléments uniformément sur la ligne */
+  height: 400px;
+  width: calc(25% - 10px); /* 25% de largeur pour 4 éléments par ligne avec un espace de 20px entre eux */
+  margin: 0 auto; /* Ajoute un espace entre les lignes */
+}
 
 div.flex-col-adapt::-webkit-scrollbar {
   display: none;
@@ -16,6 +15,7 @@ div.flex-col-adapt::-webkit-scrollbar {
   div.flex-col-adapt{
     max-width : 31%;
     overflow: hidden;
+    width: calc(50% - 10px); /* 25% de largeur pour 4 éléments par ligne avec un espace de 20px entre eux */
   }
 }
 
