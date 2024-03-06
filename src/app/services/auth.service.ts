@@ -10,7 +10,7 @@ import * as jwt_decode from 'jwt-decode'
 export class AuthService {
 
   get isTokenExist() : boolean {
-    return localStorage.getItem("token") != undefined
+    return sessionStorage.getItem("token") != undefined
   }
 
   isTokenExistSub : Subject<boolean> = new Subject<boolean>()
@@ -33,7 +33,7 @@ export class AuthService {
                 .subscribe({
       next : (token : string) => {
         console.log(token) //afficher le token
-        localStorage.setItem("token", token)
+        
         sessionStorage.setItem("token", token)
         this.emitTokenExist()
         this._router.navigate(["home"])
@@ -42,8 +42,8 @@ export class AuthService {
 
   }
   logout() {
-    localStorage.removeItem("token")
-    localStorage.clear()
+    sessionStorage.removeItem("token")
+    sessionStorage.clear()
     this.emitTokenExist()
     this._router.navigate(["secretadminaccess"])
 

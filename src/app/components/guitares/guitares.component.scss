@@ -16,7 +16,9 @@
     width: 100%;
     height: 100%;
   }
-
+  .ImgGuitare:hover {
+    cursor: zoom-in;
+  }
   
   .button-container {
     display: flex;
@@ -43,12 +45,13 @@ div.flex-col-adapt::-webkit-scrollbar {
 @media (max-width:1280px) {
   div.flex-col-adapt{
     max-width : 47%;
-    overflow: hidden;
+    overflow: auto;
   }
 }
 
 @media (max-width:1120px) {
   div.flex-col-adapt{
     max-width : 90%;
+    overflow: auto;
   }
 }

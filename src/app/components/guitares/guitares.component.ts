@@ -96,6 +96,29 @@ this._service.getAllGuitarePag(this.currentPage).subscribe({
   // #endregion
 
  }//end constructor
+ showImageInModal(imageUrl: string | undefined) {
+  if (imageUrl) {
+    const imgElement = document.getElementById("img01");
+    const modalElement = document.getElementById("modal01");
+
+    if (imgElement && modalElement) {
+      imgElement.setAttribute("src", imageUrl);
+      modalElement.style.display = "block";
+    }
+  }
+}
+
+
+closeModal() {
+  const modalElement = document.getElementById("modal01");
+
+  if (modalElement) {
+    modalElement.style.display = "none";
+  }
+}
+
+
+
 
  // #region "Pagination"
 
