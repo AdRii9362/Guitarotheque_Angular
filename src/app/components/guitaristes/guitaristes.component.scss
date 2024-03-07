@@ -10,7 +10,9 @@ div.flex-col-adapt {
 div.flex-col-adapt::-webkit-scrollbar {
   display: none;
 }
-
+.description{
+  white-space: pre-line;
+}
 @media (max-width:1480px) {
   div.flex-col-adapt{
     max-width : 31%;
@@ -67,4 +69,9 @@ div.flex-col-adapt::-webkit-scrollbar {
 
 .close-button:hover {
   color: red;
+}
+
+nav.red:not(.dark-mode nav.red) {
+  color: #fff ;
+  background-color: #f44336 ;
 }

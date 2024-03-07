@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { DarkModeService } from '../../services/darkmode.service';
 
 @Component({
   selector: 'app-nav',
@@ -8,14 +9,15 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
-
+  darkMode!:boolean
   //variable de verification pour la sidebar
   isSidebarCollapsed: boolean = true;
   isSmallScreen: boolean = false;
   status!:boolean
 
   constructor(private router: Router,
-    private _authService : AuthService) {
+    private _authService : AuthService,
+    private darkModeService: DarkModeService) {
     // Vérifier la taille de l'écran au chargement de la page
     this.checkScreenSize();
 
@@ -23,6 +25,22 @@ export class NavComponent {
       next : (value : boolean) => this.status = value
     })
     _authService.emitTokenExist()
+  }
+
+
+
+  //darkmode
+
+  toggleDarkMode() {
+    if (this.darkModeService.isDarkModeEnabled()) {
+      this.darkModeService.disableDarkMode();
+      this.darkMode=false
+  
+    } else {
+      this.darkModeService.enableDarkMode();
+      this.darkMode=true
+
+    }
   }
 
   // #region "SideBar"

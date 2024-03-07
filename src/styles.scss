@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Définition des variables pour le mode sombre
+$dark-background-color: #1f1f1f;
+$dark-text-color: #ffffff;
+
+// Styles généraux pour le mode sombre
+
+.dark-mode, .dark-mode * {
+  background-color: $dark-background-color;
+  color: $dark-text-color;
+}
+
+.dark-mode nav {
+  background-color: $dark-background-color;
+  color: $dark-text-color;
+}
+
+.dark-mode .w3-light-grey{
+  background-color: grey;
+}
+
+// @media ( prefers-color-scheme : dark){
+//   *{
+//     background-color: $dark-background-color;
+//     color: $dark-text-color;
+//   }
+// }
+
+html, body {
+  line-height: 1;
+}

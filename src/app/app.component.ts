@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { DarkModeService } from './services/darkmode.service';
 
 
 
@@ -9,5 +10,4 @@ import { Component, HostListener } from '@angular/core';
 })
 export class AppComponent {
   title = 'GuitarothequeFront';
-
 }

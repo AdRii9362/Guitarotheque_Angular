@@ -108,7 +108,6 @@ this._service.getAllGuitarePag(this.currentPage).subscribe({
   }
 }
 
-
 closeModal() {
   const modalElement = document.getElementById("modal01");
 

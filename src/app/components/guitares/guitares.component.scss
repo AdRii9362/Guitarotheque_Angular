@@ -9,12 +9,16 @@
     margin: 0 5px;
     cursor: pointer;
   }
+  .description{
+    white-space: pre-line;
+  }
 
   .ImgGuitare{
     object-fit: cover;
     object-position: center;
     width: 100%;
     height: 100%;
+    
   }
   .ImgGuitare:hover {
     cursor: zoom-in;
@@ -28,6 +32,10 @@
 .button-container button {
   margin: 0 10px; /* Espacement horizontal entre les boutons */
 
+}
+
+.description {
+  white-space: pre-line;
 }
 
 div.flex-col-adapt{
@@ -54,4 +62,9 @@ div.flex-col-adapt::-webkit-scrollbar {
     max-width : 90%;
     overflow: auto;
   }
+}
+
+nav.red:not(.dark-mode nav.red) {
+  color: #fff ;
+  background-color: #f44336 ;
 }

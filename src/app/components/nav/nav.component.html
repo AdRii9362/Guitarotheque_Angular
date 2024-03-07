@@ -1,34 +1,111 @@
-
-<!-- <h3>test affichage</h3>
-@for (g of guitaristeslist; track $index){
-  <div>
-    <p>{{g.nom}} | {{g.prenom}} | {{g.dateNaiss}}</p>
-  </div>
-} -->
-
 <!-- Header pour les grands écrans -->
 <header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
-  <a (click)="toggleSidebar()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">|||</a>
+  <a (click)="toggleSidebar()" class="w3-button w3-hide-large w3-display-topleft"
+    style="width:100%;font-size:22px">|||</a>
 </header>
 
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-red" [ngClass]="{'w3-show': !isSidebarCollapsed, 'w3-hide': isSidebarCollapsed}" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar">
+<nav class="w3-sidebar red" [ngClass]="{'w3-show': !isSidebarCollapsed, 'w3-hide': isSidebarCollapsed}"
+  style="z-index:3;width:300px;font-weight:bold;" id="mySidebar">
   <br>
   <div class="w3-container">
     <h1 *ngIf="status" class="w3-padding-64">ADMIN ACCESS</h1>
-    <h3 class="w3-padding-64"><b>Guitarothèque</b></h3>
+    <h3 class="w3-padding-64" style="margin-left: 10px;"><b>Guitarothèque</b></h3>
   </div>
   <div class="w3-bar-block">
-    <button [routerLink]="['/home']" class="w3-bar-item w3-button w3-hover-white">Accueil</button>
-    <button [routerLink]="['/guitares']" class="w3-bar-item w3-button w3-hover-white">Guitares</button>
-    <button [routerLink]="['/accessoires']" class="w3-bar-item w3-button w3-hover-white">Accessoires</button>
-    <button [routerLink]="['/guitaristes']" class="w3-bar-item w3-button w3-hover-white">Guitaristes</button>
-    <button [routerLink]="['/groupes']" class="w3-bar-item w3-button w3-hover-white">Groupes</button>
-    
-    <div *ngIf="status">
-      <hr >
-      <button (click)="logout()" class="w3-bar-item w3-button w3-hover-white">Déconnexion</button>
+    <div>
+      <!-- <button (click)="toggleDarkMode()" class="w3-bar-item w3-button w3-hover-white">
+            {{ darkMode ? 'Mode clair ☀' : 'Mode sombre 🌤' }}
+          </button> -->
+
+      <!-- <button (click)="toggleDarkMode()" class="button-82-pushable" role="button">
+            <span class="button-82-shadow"></span>
+            <span class="button-82-edge"></span>
+            <span class="button-82-front text">
+              {{ darkMode ? 'Mode clair ☀' : 'Mode sombre 🌤' }}
+            </span>
+          </button>
+
+
+          <br><br><br><br><br><br><br> -->
+
     </div>
+    <label class="theme" for="theme">
+      <span>Light</span>
+      <span class="theme__toggle-wrap">
+        <input id="theme" class="theme__toggle" type="checkbox" role="switch" name="theme" value="dark"
+          (change)="toggleDarkMode()">
+        <span class="theme__icon">
+          <span class="theme__icon-part"></span>
+          <span class="theme__icon-part"></span>
+          <span class="theme__icon-part"></span>
+          <span class="theme__icon-part"></span>
+          <span class="theme__icon-part"></span>
+          <span class="theme__icon-part"></span>
+          <span class="theme__icon-part"></span>
+          <span class="theme__icon-part"></span>
+          <span class="theme__icon-part"></span>
+        </span>
+      </span>
+      <span>Dark</span>
+    </label>
+
+    <br><br><br>
+
+    <div class="button-container">
+      <!-- <button [routerLink]="['/home']" class="button-82">Accueil</button><hr> -->
+      <button (click)="toggleSidebar()" [routerLink]="['/home']" class="button-82-pushable" role="button">
+      <span class="button-82-shadow"></span>
+      <span class="button-82-edge"></span>
+      <span class="button-82-front text">
+        Accueil
+      </span>
+    </button><br>
+
+    <button (click)="toggleSidebar()" [routerLink]="['/guitares']" class="button-82-pushable" role="button">
+      <span class="button-82-shadow"></span>
+      <span class="button-82-edge"></span>
+      <span class="button-82-front text">
+        Guitares
+      </span>
+    </button><br>
     
+    <button (click)="toggleSidebar()" [routerLink]="['/accessoires']" class="button-82-pushable" role="button">
+      <span class="button-82-shadow"></span>
+      <span class="button-82-edge"></span>
+      <span class="button-82-front text">
+        Accessoires
+      </span>
+    </button><br>
+
+    <button (click)="toggleSidebar()" [routerLink]="['/guitaristes']" class="button-82-pushable" role="button">
+      <span class="button-82-shadow"></span>
+      <span class="button-82-edge"></span>
+      <span class="button-82-front text">
+        Guitaristes
+      </span>
+    </button><br>
+
+    <button (click)="toggleSidebar()" [routerLink]="['/groupes']" class="button-82-pushable" role="button">
+      <span class="button-82-shadow"></span>
+      <span class="button-82-edge"></span>
+      <span class="button-82-front text">
+        Groupes
+      </span>
+    </button><br>
+    <!-- <button [routerLink]="['/guitares']" class="w3-bar-item w3-button w3-hover-white">Guitares</button><hr>
+      <button [routerLink]="['/accessoires']" class="w3-bar-item w3-button w3-hover-white">Accessoires</button><hr>
+      <button [routerLink]="['/guitaristes']" class="w3-bar-item w3-button w3-hover-white">Guitaristes</button><hr>
+      <button [routerLink]="['/groupes']" class="w3-bar-item w3-button w3-hover-white">Groupes</button> -->
+      
+          </div>
+      
+      <div *ngIf="status">
+        <hr>
+        <button (click)="logout()" class="w3-bar-item w3-button w3-hover-white">Déconnexion</button>
+      </div>
   </div>
+
+
+
 </nav>
