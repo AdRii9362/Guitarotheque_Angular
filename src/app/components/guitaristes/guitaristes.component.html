@@ -34,7 +34,7 @@
           <h3>{{ g.nom }} {{ g.prenom }}</h3>
           <p class="w3-opacity">Date de naissance: {{ g.dateNaiss | date : "dd MMMM yyyy" : '' : 'fr-BE' }}</p>
           <div *ngFor="let nomGuitare of g.libelle_Guitare; let i = index">
-            <li class="w3-opacity custom-link" (click)="popup(g.id_Guitare![i])">{{ nomGuitare }}</li>
+            <li class="w3-opacity custom-link" (click)="popup(g.id_Guitare![i])">{{ nomGuitare }}</li><br>
           </div>
         </div>
       </div>
@@ -103,7 +103,7 @@
   <h2 class="w3-xxxlarge w3-text-red">Supprimer un guitariste</h2>
   <hr style="width:50px;border:5px solid red" class="w3-round">
   <div>
-    <select [(ngModel)]="selectDeleteGuitariste" style="margin-right: 10px">
+    <select [(ngModel)]="selectDeleteGuitariste" style="margin-right: 10px" >
       <option *ngFor="let g of guitaristeslist" [value]="g.id_Guitariste">ID: {{g.id_Guitariste}} | {{ g.nom }} | {{ g.prenom }} | {{ g.dateNaiss | date : "dd-MMM-yyyy" }}</option>
     </select>
     <button (click)="onDeleteSelectedGuitariste()" class="w3-button w3-red" [disabled]="!selectDeleteGuitariste">Supprimer</button>
@@ -117,7 +117,7 @@
   <hr style="width:50px;border:5px solid red" class="w3-round">
   <div>
     <!-- Sélectionnez un guitariste à mettre à jour -->
-    <select [(ngModel)]="selectedGuitaristeId" style="margin-right: 10px">
+    <select [(ngModel)]="selectedGuitaristeId" style="margin-right: 10px" (change)="onSelectGuitariste()">
       <option *ngFor="let g of guitaristeslist" [value]="g.id_Guitariste">ID: {{g.id_Guitariste}} | {{ g.nom }} | {{ g.prenom }} | {{ g.dateNaiss | date : "dd-MMM-yyyy" }}</option>
     </select>    
   </div>

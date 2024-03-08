@@ -216,6 +216,34 @@ console.log(guitareNumbers)
 // #region "Update Guitariste"
 
 // Mettre à jour le guitariste sélectionné avec les données du formulaire
+
+onSelectGuitariste() {
+  console.log("Sélection OK");
+
+  const selectedId: number | undefined = this.selectedGuitaristeId;
+
+  // Vérifier si l'ID est défini
+  if (selectedId !== undefined) {
+    // Rechercher le guitariste correspondant dans votre liste de guitaristes
+    const selectedGuitariste = this.guitaristeslist.find(g => g.id_Guitariste === +selectedId);
+    // Vérifier si un guitariste a été trouvé
+    if (!selectedGuitariste) {
+      console.error("Aucun guitariste sélectionné.");
+      return;
+    }
+    if (selectedGuitariste) {
+    const DateGuitariste = new Date(selectedGuitariste.dateNaiss);
+    const DateFormat = format(DateGuitariste, 'yyyy-MM-dd');
+    this.formPostGuitariste.patchValue({ 
+      nom: selectedGuitariste.nom,
+      prenom: selectedGuitariste.prenom,
+      dateNaiss: DateFormat,
+      guitare:selectedGuitariste.id_Guitare
+    });
+  }
+}
+}
+
 onUpdateSelectedGuitariste() {
 
   // #region "test"

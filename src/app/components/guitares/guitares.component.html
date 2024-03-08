@@ -16,7 +16,8 @@
   <div *ngFor="let g of guitarelistpag; let i = index" class="w3-light-grey m4 w3-margin-bottom flex-col-adapt">
     <div class="w3-light-grey" style="height: 100%; display: flex; flex-direction: column;">
       <div class="w3-container" style="flex-grow: 1;">
-        <h3>{{ g.libelle }} - ID:{{g.id_Guitare}}</h3>
+        <h3>{{ g.libelle }} </h3>
+        <h3 *ngIf="status">ID:{{g.id_Guitare}}</h3>
         <div style="width: 99%; height: 25%;">
           <!-- Ajoutez un événement click pour afficher l'image en grand -->
           <img class="ImgGuitare" [src]="'https://localhost:7206/images/'+ g.urlImage" alt="Romano Adriano" (click)="showImageInModal('https://localhost:7206/images/'+ g.urlImage)">
